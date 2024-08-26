@@ -71,7 +71,7 @@ existeEnLista (x : xs) n
 todaLaListaIgual :: [Int] -> Bool
 todaLaListaIgual [] = True
 todaLaListaIgual [_] = True
-todaLaListaIgual (x : y : xs) = x == y && todaLaListaIgual (y:xs)
+todaLaListaIgual (x : y : xs) = x == y && todaLaListaIgual (y : xs)
 
 -- Ejercicio 4
 maxMenorMin :: [Int] -> [Int] -> Bool
@@ -79,11 +79,10 @@ maxMenorMin [] [] = True
 maxMenorMin [] _ = False
 maxMenorMin _ [] = False
 maxMenorMin [a] [b] = a < b
-maxMenorMin (x:xs) (y:ys) = maximum xs < minimum ys
+maxMenorMin (x : xs) (y : ys) = maximum xs < minimum ys
 
 encontrarMultiplos :: Int -> (Int, Int)
-encontrarMultiplos 0 = (0,0)
-encontrarMultiplos 0 = (1,1)
+encontrarMultiplos 0 = (0, 0)
 encontrarMultiplos n = undefined
 
 -- Ejercicio 5
@@ -107,6 +106,73 @@ productoDeElementosPares (x : xs)
 
 sumaDePosicionesPares :: [Int] -> Int
 sumaDePosicionesPares [] = 0
-sumaDePosicionesPares (x:_:xs) = x + sumaDePosicionesPares xs
+sumaDePosicionesPares (x : _ : xs) = x + sumaDePosicionesPares xs
 
+-- Ejercicio 7
+paraTodo' :: [a] -> (a -> Bool) -> Bool
+paraTodo' [] _ = True
+paraTodo' (x : xs) f
+  | f x == True = paraTodo' xs f
+  | f x == False = False
 
+existe' :: [a] -> (a -> Bool) -> Bool
+existe' [] _ = False
+existe' (x : xs) f
+  | f x == True = True
+  | f x == False = existe' xs f
+
+sumatoria' :: [a] -> (a -> Int) -> Int
+sumatoria' [] _ = 0
+sumatoria' (x : xs) f = f x + sumatoria' xs f
+
+productoria' :: [a] -> (a -> Int) -> Int
+productoria' [] _ = 1
+productoria' (x : xs) f = f x * productoria' xs f
+
+-- Ejercicio 9
+-- a
+todosPares :: [Int] -> Bool
+todosPares xs = paraTodo' xs esPar
+
+esPar :: Int -> Bool
+esPar x = mod x 2 == 0
+
+-- b
+hayMultiplo :: Int -> [Int] -> Bool
+hayMultiplo n ls = existe' ls (esDivisor n)
+
+esDivisor :: Int -> Int -> Bool
+esDivisor x y = mod x y == 0
+
+-- c
+sumaCuadrados :: Int -> Int
+sumaCuadrados x = sumatoria' [0 .. x] (^ 2)
+
+-- d
+existeDivisor :: Int -> [Int] -> Bool
+existeDivisor n ls = existe' ls (esDivisor n)
+
+-- e
+esPrimo :: Int -> Bool
+esPrimo x = not (existeDivisor x [2 .. x - 1])
+
+-- f
+factorial' :: Int -> Int
+factorial' x = productoria' [1 .. x] (*1)
+
+-- g
+multiplicarPrimos :: [Int] -> Int
+multiplicarPrimos xs = productoria' xs (\x -> if esPrimo x then x else 1)
+
+-- h
+esFib :: Int -> Bool
+esFib x = existe' [0 .. x] (\y -> fib y == x)
+
+fib :: Int -> Int
+fib 0 = 0
+fib 1 = 1
+fib n = fib (n - 1) + fib (n - 2)
+
+-- i
+todosFib :: [Int] -> Bool
+todosFib xs = paraTodo' xs esFib

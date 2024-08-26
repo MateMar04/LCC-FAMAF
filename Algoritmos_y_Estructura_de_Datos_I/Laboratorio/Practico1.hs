@@ -162,11 +162,17 @@ factorial' x = productoria' [1 .. x] (*1)
 
 -- g
 multiplicarPrimos :: [Int] -> Int
-multiplicarPrimos xs = productoria' xs (\x -> if esPrimo x then x else 1)
+multiplicarPrimos xs = productoria' xs valorSiEsPrimo
+
+valorSiEsPrimo :: Int -> Int
+valorSiEsPrimo x = if esPrimo x then x else 1
 
 -- h
 esFib :: Int -> Bool
-esFib x = existe' [0 .. x] (\y -> fib y == x)
+esFib x = existe' [0 .. x] (esIgualAFib x)
+
+esIgualAFib :: Int -> Int -> Bool
+esIgualAFib x y = fib y == x
 
 fib :: Int -> Int
 fib 0 = 0

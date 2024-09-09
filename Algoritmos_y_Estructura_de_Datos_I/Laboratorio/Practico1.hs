@@ -154,11 +154,13 @@ existeDivisor n ls = existe' ls (esDivisor n)
 
 -- e
 esPrimo :: Int -> Bool
+esPrimo 0 = False
+esPrimo 1 = False
 esPrimo x = not (existeDivisor x [2 .. x - 1])
 
 -- f
 factorial' :: Int -> Int
-factorial' x = productoria' [1 .. x] (*1)
+factorial' x = productoria' [1 .. x] (* 1)
 
 -- g
 multiplicarPrimos :: [Int] -> Int
@@ -182,3 +184,98 @@ fib n = fib (n - 1) + fib (n - 2)
 -- i
 todosFib :: [Int] -> Bool
 todosFib xs = paraTodo' xs esFib
+
+-- Ejercicio 10
+-- a
+duplica :: [Int] -> [Int]
+duplica [] = []
+duplica (x : xs) = x * 2 : duplica xs
+
+-- b
+duplica' :: [Int] -> [Int]
+duplica' xs = map (* 2) xs
+
+-- Ejercicio 11
+-- a
+buscarPrimos :: [Int] -> [Int]
+buscarPrimos [] = []
+buscarPrimos (x : xs)
+  | esPrimo x = x : buscarPrimos xs
+  | otherwise = buscarPrimos xs
+
+-- b
+buscarPrimos' :: [Int] -> [Int]
+buscarPrimos' (x : xs) = filter esPrimo (x : xs)
+
+-- 12
+-- a
+primerosIgualesA :: (Eq a) => a -> [a] -> [a]
+primerosIgualesA _ [] = []
+primerosIgualesA n (x : xs)
+  | n == x = x : primerosIgualesA n xs
+  | otherwise = []
+
+-- b
+primerosIgualesA' :: (Eq a) => a -> [a] -> [a]
+primerosIgualesA' _ [] = []
+primerosIgualesA' n (x : xs) = takeWhile (== n) (x : xs)
+
+-- Ejercicio 13
+-- a
+primIguales :: (Eq a) => [a] -> [a]
+primIguales [] = []
+primIguales [x] = [x]
+primIguales (x : y : xs)
+  | x == y = x : primIguales (y : xs)
+  | otherwise = [x]
+
+-- b
+primIguales' :: (Eq a) => [a] -> [a]
+primIguales' [] = []
+primIguales' (x : xs) = primerosIgualesA x (x : xs)
+
+-- Ejercicio 14
+cuantGen :: (b -> b -> b) -> b -> [a] -> (a -> b) -> b
+-- (b -> b -> b) o z en la definicion es el operador binario
+-- b o z es el elemento neutro del operador binario
+-- [a] o (x:xs) en la def. es la lista de elementos
+-- (a -> b) o t en la def. es la funcion que aplica el operator binario a un elemento de la lista
+cuantGen _ z [] _ = z
+cuantGen op z (x : xs) t = op (t x) (cuantGen op z xs t)
+
+-- ejemplo: cuantGen (*) 1 [1, 2, 3, 4] (+1)
+-- resultado: 120
+-- multiplicacion de todos los elementos de la lista mas 1 (2*3*4*5)
+
+-- Ejercicio 15
+primQueCumplen :: [a] -> (a -> Bool) -> [a]
+primQueCumplen [] _ = []
+primQueCumplen (l : ls) p
+  | p l = l : primQueCumplen ls p
+  | otherwise = []
+
+-- Ejercicio 16
+--A es correcto
+--B es incorrecto
+--C es correcto
+--D es correcto
+--E es correcto
+--F es correcto
+--G es correcto
+--H es correcto
+--I es incorrecto
+
+-- Ejercicio 17
+-- a
+-- Declaracion: f :: (a, b) -> b
+-- Definicion: f (x, y) = y
+--b
+-- Declaracion: f :: (a, b) -> c
+-- Definicion: f (x, y) = x + y
+--c
+-- Declaracion: f :: (a -> b) -> a -> b
+-- Definicion g x = g x
+--d
+-- Declaracion: f :: (a -> b) -> [a] -> [b]
+-- Definicion: g (x:xs) = g x : f xs
+

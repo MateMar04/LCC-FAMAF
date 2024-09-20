@@ -456,8 +456,6 @@ parOcurrencias _ [] = True
 parOcurrencias e xs = mod (maxiga e xs) 2 == 0
 
 -- b
--- NO ANDA
--- No puedo hacer que devuelva true posicionesPares 1 [1,1,1]
 -- El elemento e ocurre por lo menos en las posiciones pares de la lista xs.
 posicionesPares :: (Eq a) => a -> [a] -> Bool
 posicionesPares _ [] = False -- Devuelve False si la lista está vacía

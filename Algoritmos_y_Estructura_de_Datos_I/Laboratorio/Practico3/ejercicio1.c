@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-int main() {
-    // Declaración de variables
+void ejercicio1() {
+    //  Declaración de variables
     int x, y, z;
 
     // Solicitar al usuario los valores de x, y, z
@@ -21,6 +21,30 @@ int main() {
     printf("Resultado de y < x * z = %d\n", y < x * z); // 0 == False y 1 == True
 
     // Para la ultima expresion el resultado es tipo int, 0 == False y 1 == True
+}
 
-    return 0;
+void ejercicio3() {
+    int x;
+    printf("Ingrese un valor x\n");
+    scanf("%d", &x);
+    x = 5;
+    printf("%d\n", x);
+
+    int a, b;
+    printf("Ingrese valores para a y b (separados por espacio):\n");
+    scanf("%d %d", &a, &b);
+    a = a + b;
+    b = b + b;
+    printf("Resultados: a = %d, b = %d\n", a, b);
+
+    int c, d;
+    printf("Ingrese valores para c y d (separados por espacio):\n");
+    scanf("%d %d", &c, &d);
+    d = d + d;
+    c = c + d;
+    printf("Resultados: c = %d, d = %d\n", c, d);
+}
+
+int main() {
+    ejercicio3();
 }

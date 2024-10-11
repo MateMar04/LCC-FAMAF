@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include "entradas.h"
+#include "entradas_bool.h"
+#include "saludos.h"
 
 void ejercicio1() {
     //  Declaración de variables
@@ -218,5 +221,11 @@ void ejercicio9b() {
 }
 
 int main() {
-    ejercicio9a();
+    imprimir_entero(pedir_entero('n'), 'n');
+    imprimir_booleano(pedir_booleano('m'), 'm');
+    imprimir_hola();
+    imprimir_chau();
+    imprimir_chau();
+
+
 }

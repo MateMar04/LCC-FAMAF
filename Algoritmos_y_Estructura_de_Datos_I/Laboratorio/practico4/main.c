@@ -2,6 +2,7 @@
 #include "vocales.h"
 #include "intercambio_arreglos.h"
 #include "sumatoria.h"
+#include "division.h"
 
 void intercambio_de_variables() {
     int x, y, z;
@@ -102,18 +103,17 @@ imprimir_arreglo(n_max, a);
 
 
 int main() {
-    int n_max;
-    printf("Ingrese el tamaño del arreglo: \n");
-    scanf("%d", &n_max);
+    int x, y;
 
-    int a[n_max];
-    printf("Ingrese los valores del arreglo: \n");
-    for (int i = 0; i < n_max; i++) {
-        printf("Elemento %d: ", i);
-        scanf("%d", &a[i]);
-    }
+    printf("Ingrese el dividendo (x): ");
+    scanf("%d", &x);
+    printf("Ingrese el divisor (y): ");
+    scanf("%d", &y);
 
-    sumatoria(n_max, a);
+    struct div_t resultado = division(x, y);
+
+    printf("El cociente es: %d\n", resultado.cociente);
+    printf("El resto es: %d\n", resultado.resto);
 
     return 0;
 }

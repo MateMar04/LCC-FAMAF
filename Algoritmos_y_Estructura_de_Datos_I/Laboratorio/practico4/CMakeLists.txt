@@ -9,4 +9,6 @@ add_executable(practico4 main.c
         intercambio_arreglos.c
         intercambio_arreglos.h
         sumatoria.c
-        sumatoria.h)
+        sumatoria.h
+        division.c
+        division.h)

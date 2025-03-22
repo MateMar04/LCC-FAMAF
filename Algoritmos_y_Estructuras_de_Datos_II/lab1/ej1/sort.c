@@ -21,6 +21,7 @@ static void insert(int a[], unsigned int i, unsigned int length) {
 
 void insertion_sort(int a[], unsigned int length) {
     for (unsigned int i = 1; i < length; ++i) {
+        assert(array_is_sorted(a, i));
         insert(a, i, length);
     }
 }

@@ -20,6 +20,8 @@ static unsigned int partition(int a[], unsigned int izq, unsigned int der) {
             j--;
         } else if (a[i] > a[ppiv] && a[j] < a[ppiv]) {
             swap(a, i,j);
+            i++;
+            j--;
         }
     }
     swap(a, ppiv, j);

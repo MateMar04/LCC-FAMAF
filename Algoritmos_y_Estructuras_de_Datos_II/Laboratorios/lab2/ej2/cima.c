@@ -23,9 +23,9 @@ bool check_ascendente(int a[], int max_idx)
 {
     bool subida = true;
     int i = 0;
-    while ((i < max_idx - 1) && subida)
+    while ((i < max_idx) && subida)
     {
-        if (a[i] > a[i + 1])
+        if (a[i] >= a[i + 1])
         {
             subida = false;
         }
@@ -34,13 +34,13 @@ bool check_ascendente(int a[], int max_idx)
     return subida;
 }
 
-bool check_decendente(int a[], int max_idx)
+bool check_decendente(int a[], int max_idx, int length)
 {
     bool bajada = true;
-    int i = 0;
-    while ((i < max_idx - 1) && bajada)
+    int i = max_idx;
+    while ((i < length) && bajada)
     {
-        if (a[i] > a[i + 1])
+        if (a[i] >= a[i + 1])
         {
             bajada = false;
         }
@@ -64,7 +64,7 @@ bool tiene_cima(int a[], int length)
 
     int max_idx = maximo_idx(a, length);
     bool subida = check_ascendente(a, max_idx);
-    bool bajada = check_decendente(a, max_idx);
+    bool bajada = check_decendente(a, max_idx, length - 1);
     bool cima = bajada && subida;
 
     return cima;
@@ -91,7 +91,7 @@ int cima(int a[], int length)
     {
         int max_idx = maximo_idx(a, length);
         bool subida = check_ascendente(a, max_idx);
-        bool bajada = check_decendente(a, max_idx);
+        bool bajada = check_decendente(a, max_idx, length - 1);
 
                 if (subida && bajada)
         {

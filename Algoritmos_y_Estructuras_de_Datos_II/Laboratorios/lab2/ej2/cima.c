@@ -22,7 +22,7 @@ int maximo_idx(int a[], int length)
 bool check_ascendente(int a[], int max_idx, int max)
 {
     bool subida = true;
-    unsigned int i = 0;
+    int i = 0;
     while ((i < max_idx) && subida)
     {
         if (a[i] >= max)
@@ -37,7 +37,7 @@ bool check_ascendente(int a[], int max_idx, int max)
 bool check_decendente(int a[], int max_idx, int max)
 {
     bool bajada = true;
-    unsigned int i = 0;
+    int i = 0;
     while ((i < max_idx) && bajada)
     {
         if (a[i] >= max)

@@ -86,7 +86,7 @@ bool tiene_cima(int a[], int length)
 int cima(int a[], int length)
 {
 
-    int cima = -1;
+    int c = -1;
 
     if (tiene_cima(a, length))
     {
@@ -99,9 +99,9 @@ int cima(int a[], int length)
 
         if (subida && bajada)
         {
-            cima = max;
+            c = max;
         }
     }
 
-    return cima;
+    return c;
 }

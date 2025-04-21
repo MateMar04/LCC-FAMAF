@@ -71,7 +71,7 @@ void table_from_file(WeatherTable a, const char *filepath)
         int res = fscanf(file, " %u %u %u ", &k_year, &k_month, &k_day);
         if (res != 3)
         {
-            fprintf(stderr, "Invalid table.\n");
+            fprintf(stderr, "Invalid table. %d\n", res);
             exit(EXIT_FAILURE);
         }
 

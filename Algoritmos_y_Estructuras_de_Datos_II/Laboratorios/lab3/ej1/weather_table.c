@@ -8,6 +8,8 @@
 #include <stdlib.h>
 
 #include "weather_table.h"
+#include "weather.h"
+
 
 /**
  * @brief Write the content of the table 'a' into stdout.

@@ -65,6 +65,7 @@ void table_from_file(WeatherTable a, const char *filepath)
     unsigned int k_year = 0u;
     unsigned int k_month = 0u;
     unsigned int k_day = 0u;
+    
     while (!feof(file))
     {
         int res = fscanf(file, " %u %u %u ", &k_year, &k_month, &k_day);
@@ -78,10 +79,10 @@ void table_from_file(WeatherTable a, const char *filepath)
         Weather weather = weather_from_file(file);
 
         unsigned int iy = k_year - FST_YEAR;
-        unsigned int im = k_month - 1; /* month_t implícito */
+        unsigned int im = k_month - 1; 
         unsigned int iday = k_day - 1;
 
-        a[iy][im][iday] = weather;
+        //a[iy][im][iday] = weather;
     }
 
     fclose(file);

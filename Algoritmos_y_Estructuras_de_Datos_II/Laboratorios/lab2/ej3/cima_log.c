@@ -12,9 +12,9 @@ int cima_log_rec(int a[], int left, int right) {
     if (a[mid] > a[mid + 1] && a[mid] > a[mid - 1]) {
         cima = a[mid];
     } else if (a[mid] < a[mid + 1] && a[mid] > a[mid - 1]) {
-        cima_log_rec(a, mid + 1, right);
+        cima = cima_log_rec(a, mid + 1, right);
     } else if (a[mid] > a[mid + 1] && a[mid] < a[mid - 1]) {
-        cima_log_rec(a, left, mid - 1);
+        cima = cima_log_rec(a, left, mid - 1);
     }
 
     return cima;
@@ -37,16 +37,18 @@ int cima_log_rec(int a[], int left, int right) {
  */
 int cima_log(int a[], int length) {
 
-    if (length >= 2) {
-        if (a[0] > a[1]) {
-            return a[0];
-        }
-    } else if (a[length - 1] > a[length - 2]) {
+    if (length == 1) {
+        return a[0];
+    }
+   
+    if (a[0] > a[1]) {
+        return a[0];
+    }
+    
+    if (a[length - 1] > a[length - 2]) {
         return a[length - 1];
     }
     
-    int cima = cima_log_rec(a, 0, length - 1);
-       
-    return cima;
+    return cima_log_rec(a, 0, length - 1);
   
 }

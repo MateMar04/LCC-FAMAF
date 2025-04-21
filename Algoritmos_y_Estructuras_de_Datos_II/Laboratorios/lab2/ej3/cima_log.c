@@ -2,6 +2,26 @@
 #include <stdbool.h>
 #include "cima_log.h"
 
+
+int cima_log_rec(int a[], int left, int right) {
+
+    int mid = (left + right) / 2;
+    
+    int cima;
+
+    if (a[mid] > a[mid + 1] && a[mid] > a[mid - 1]) {
+        cima = a[mid];
+    } else if (a[mid] < a[mid + 1] && a[mid] > a[mid - 1]) {
+        cima_log_rec(a, mid + 1, right);
+    } else if (a[mid] > a[mid + 1] && a[mid] < a[mid - 1]) {
+        cima_log_rec(a, left, mid - 1);
+    }
+
+    return cima;
+}
+
+
+
 /**
  * @brief Dado un arreglo que tiene cima, devuelve la posición de la cima
  * usando la estrategia divide y venceras.
@@ -29,21 +49,4 @@ int cima_log(int a[], int length) {
        
     return cima;
   
-}
-
-int cima_log_rec(int a[], int left, int right) {
-
-    int mid = (left + right) / 2;
-    
-    int cima;
-
-    if (a[mid] > a[mid + 1] && a[mid] > a[mid - 1]) {
-        cima = a[mid];
-    } else if (a[mid] < a[mid + 1] && a[mid] > a[mid - 1]) {
-        cima_log_rec(a, mid + 1, right);
-    } else if (a[mid] > a[mid + 1] && a[mid] < a[mid - 1]) {
-        cima_log_rec(a, left, mid - 1);
-    }
-
-    return cima;
 }

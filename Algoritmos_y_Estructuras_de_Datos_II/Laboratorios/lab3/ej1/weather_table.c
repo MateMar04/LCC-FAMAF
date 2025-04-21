@@ -78,9 +78,9 @@ void table_from_file(WeatherTable a, const char *filepath)
         // Ir a la función 'weather_from_file' en weather.c y completar!
         Weather weather = weather_from_file(file);
 
-        unsigned int iy = k_year - FST_YEAR;
-        unsigned int im = k_month - 1; 
-        unsigned int iday = k_day - 1;
+        //unsigned int iy = k_year - FST_YEAR;
+        //unsigned int im = k_month - 1; 
+        //unsigned int iday = k_day - 1;
 
         //a[iy][im][iday] = weather;
     }

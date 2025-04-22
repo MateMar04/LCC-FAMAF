@@ -11,6 +11,10 @@
 /* Then, this project's includes, alphabetically ordered */
 #include "weather_table.h"
 
+/* includes the new utils */
+#include "weather_utils.h"
+
+
 /**
  * @brief print usage help
  * @param[in] program_name Executable name
@@ -72,5 +76,21 @@ int main(int argc, char *argv[]) {
     /* show the table in the screen */
     table_dump(table);
 
+    /* ——— B: analisis ——— */
+
+    /* a) max historical temp */
+    int lowest_temp = lowest_min_temp(table);
+    printf(" \n Temperatura mínima histórica: %d°C \n", lowest_temp);
+
+    /* b) Max temp per year */
+    int max_by_year[YEARS] = highest_max_temp(table);
+    int rainiest_month[YEARS] = max_month_rainfall_by_year(table);
+
+    printf(" \n Máxima temperatura por año, mes con mayor precipitación: \n");
+    for (int y = 0; y < YEARS; y++) {
+        printf("  %d: %d°C %d \n", 1980 + y, max_by_year[y], rainiest_month[y] + 1);
+    }
+
     return EXIT_SUCCESS;
 }
+

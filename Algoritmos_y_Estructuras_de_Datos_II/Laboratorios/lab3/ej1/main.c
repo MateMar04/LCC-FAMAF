@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
 
     printf(" \n Máxima temperatura por año, mes con mayor precipitación: \n");
     for (int y = 0; y < YEARS; y++) {
-        printf("  Año: %d  Temp Max: %d Mes con mas Prec: %d \n", 1980 + y, max_by_year[y], rainiest_month[y] + 1);
+        printf("  Año: %d | Temp Max: %d | Mes con mas Prec: %d \n", 1980 + y, max_by_year[y], rainiest_month[y] + 1);
     }
 
     return EXIT_SUCCESS;

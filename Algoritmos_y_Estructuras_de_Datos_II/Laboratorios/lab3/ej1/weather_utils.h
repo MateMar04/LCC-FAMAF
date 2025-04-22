@@ -15,7 +15,7 @@ int lowest_min_temp(Weather weather[YEARS][MONTHS][DAYS]);
  * almacena un array interno; quizá necesites ajustar la firma si quieres
  * devolver el array completo).
  */
-int highest_max_temp(Weather weather[YEARS][MONTHS][DAYS]);
+void highest_max_temp(Weather weather[YEARS][MONTHS][DAYS], int output[YEARS]);
 
 /**
  * Suma la precipitación de un mes dado (year, month).
@@ -28,6 +28,6 @@ int sum_month_rainfall(Weather weather[YEARS][MONTHS][DAYS],
  * Para cada año, calcula el mes con más lluvia.
  * La implementación actual lo guarda en un array interno;
  */
-int max_month_rainfall_by_year(Weather weather[YEARS][MONTHS][DAYS]);
+void max_month_rainfall_by_year(Weather weather[YEARS][MONTHS][DAYS], int output[YEARS]);
 
 #endif /* WEATHER_UTILS_H */

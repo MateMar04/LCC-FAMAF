@@ -83,8 +83,10 @@ int main(int argc, char *argv[]) {
     printf(" \n Temperatura mínima histórica: %d°C \n", lowest_temp);
 
     /* b) Max temp per year */
-    int max_by_year[YEARS] = highest_max_temp(table);
-    int rainiest_month[YEARS] = max_month_rainfall_by_year(table);
+    int max_by_year[YEARS];
+    highest_max_temp(table, max_by_year);
+    int rainiest_month[YEARS];
+    max_month_rainfall_by_year(table, rainiest_month);
 
     printf(" \n Máxima temperatura por año, mes con mayor precipitación: \n");
     for (int y = 0; y < YEARS; y++) {

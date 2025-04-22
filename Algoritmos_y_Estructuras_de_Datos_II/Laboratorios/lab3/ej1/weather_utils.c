@@ -17,10 +17,7 @@ int lowest_min_temp(Weather weather[YEARS][MONTHS][DAYS]) {
     return min;
 }
 
-int highest_max_temp(Weather weather[YEARS][MONTHS][DAYS]) {
-    
-    int result [YEARS];
-    
+void highest_max_temp(Weather weather[YEARS][MONTHS][DAYS], int output[YEARS]) {
     for (int y = 0; y < YEARS; y++) {
         int max_t = weather[y][0][0]._max_temp;
         for (int m = 0; m < MONTHS; m++) {
@@ -30,9 +27,8 @@ int highest_max_temp(Weather weather[YEARS][MONTHS][DAYS]) {
                 }
             }
         }
-        result[y] = max_t;
+        output[y] = max_t;
     }
-    return result;
 }
 
 int sum_month_rainfall(Weather weather[YEARS][MONTHS][DAYS], int y, int m) {
@@ -43,10 +39,7 @@ int sum_month_rainfall(Weather weather[YEARS][MONTHS][DAYS], int y, int m) {
     return sum;
 }
 
-int max_month_rainfall_by_year(Weather weather[YEARS][MONTHS][DAYS]) {
-    
-    int result [YEARS];
-    
+void max_month_rainfall_by_year(Weather weather[YEARS][MONTHS][DAYS], int output[YEARS]) {
     for (int y = 0; y < YEARS; y++) {
         int best_m = 0;
         int best_rain = sum_month_rainfall(weather, y, 0);
@@ -57,8 +50,6 @@ int max_month_rainfall_by_year(Weather weather[YEARS][MONTHS][DAYS]) {
                 best_m = m;
             }
         }
-        result[y] = best_m;
+        output[y] = best_m;
     }
-
-    return result;
 }

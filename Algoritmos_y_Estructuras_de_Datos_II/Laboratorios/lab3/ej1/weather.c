@@ -2,45 +2,27 @@
   @file weather.c
   @brief Implements weather mesuarement structure and methods
 */
-#include <stdio.h>
 #include <stdlib.h>
 #include "weather.h"
+#include <assert.h>
 
-Weather weather_from_file(FILE *file)
+Weather weather_from_file(FILE* file)
 {
-    Weather w;
-    unsigned int year, month, day;
-    int avg, max, min;
-    unsigned int press, moist, rain;
+    Weather weather;
 
-    
-    int scanned = fscanf(file,
-        " %u %u %u "     
-        "%d %d %d "      
-        "%u %u %u",      
-        &year, &month, &day,
-        &avg, &max, &min,
-        &press, &moist, &rain
-    );
-    if (scanned != 9) {
-        fprintf(stderr,
-            "Error: formato de línea meteorológica inválido (se esperaban 9 campos, leídos %d)\n",
-            scanned);
+    int data = fscanf(file, "%d %d %d %u %u %u\n", &weather._average_temp, &weather._max_temp, &weather._min_temp, 
+                                               &weather._pressure, &weather._moisture, &weather._rainfall);
+     if (data != 6) 
+     {
+        fprintf(stderr, "Formato inválido en datos de clima.\n");
         exit(EXIT_FAILURE);
     }
 
-    w._average_temp = avg;
-    w._max_temp     = max;
-    w._min_temp     = min;
-    w._pressure     = press;
-    w._moisture     = moist;
-    w._rainfall     = rain;
-
-    return w;
+    return weather;
 }
 
-void weather_to_file(FILE *file, Weather weather)
+void weather_to_file(FILE* file, Weather weather)
 {
-  fprintf(file, "%d %d %d %u %u %u", weather._average_temp,
-          weather._max_temp, weather._min_temp, weather._pressure, weather._moisture, weather._rainfall);
+    fprintf(file, "%d %d %d %u %u %u", weather._average_temp,
+            weather._max_temp, weather._min_temp, weather._pressure, weather._moisture, weather._rainfall);
 }

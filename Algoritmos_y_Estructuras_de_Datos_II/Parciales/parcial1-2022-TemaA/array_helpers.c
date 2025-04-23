@@ -71,6 +71,9 @@ void array_from_file(LayoverTable array, const char *filepath) {
     Flight flight_arrival = flight_from_file(file, code);
     Flight flight_departure = flight_from_file(file, code);
 
+    array[flight_arrival.hour][0] = flight_arrival;
+    array[flight_departure.hour][1] = flight_departure;
+
 
     i++;
   }

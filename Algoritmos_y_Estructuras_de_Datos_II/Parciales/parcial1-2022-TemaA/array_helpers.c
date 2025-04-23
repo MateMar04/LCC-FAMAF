@@ -34,13 +34,13 @@ unsigned int passengers_amount_in_airport (LayoverTable a, unsigned int h) {
   assert(h > 0 && h <= HOURS);
 
     
-  unsigned int idx = h - 1;
+  unsigned int idx = h;
   unsigned int waiting = 0;
 
-  for (unsigned int i = 0; i <= idx; ++i) {
+  for (unsigned int i = 0; i <= idx; i++) {
       waiting += a[i][arrival].passengers_amount;
   }
-    for (unsigned int j = 0; j < idx; ++j) {
+    for (unsigned int j = 0; j < idx; j++) {
         waiting -= a[j][departure].passengers_amount;
     }
 

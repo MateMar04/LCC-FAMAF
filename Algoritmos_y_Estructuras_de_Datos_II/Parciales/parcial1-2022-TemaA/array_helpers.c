@@ -35,7 +35,7 @@ unsigned int passengers_amount_in_airport (LayoverTable a, unsigned int h) {
 
   unsigned int total = 0;
 
-  for (unsigned int i = 0u; i < TYPE; ++i) {
+  for (unsigned int i = 0u; i < TYPE; i++) {
     Flight f = a[h][i];
     if (f.type == arrival && f.hour == h) {
       total += f.passengers_amount;
@@ -45,7 +45,7 @@ unsigned int passengers_amount_in_airport (LayoverTable a, unsigned int h) {
   }
 
 
-  return 0;
+  return total;
 }
 
 
@@ -73,9 +73,6 @@ void array_from_file(LayoverTable array, const char *filepath) {
 
     array[flight_arrival.hour][0] = flight_arrival;
     array[flight_departure.hour][1] = flight_departure;
-
-
-    i++;
   }
   fclose(file);
 }

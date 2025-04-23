@@ -35,8 +35,8 @@ unsigned int passengers_amount_in_airport (LayoverTable a, unsigned int h) {
 
   unsigned int total = 0;
 
-  for (unsigned int i = 0u; i < TYPE; ++i) {
-    Flight f = a[h][i];
+  for (unsigned int i = 0u; i < TYPE; i++) {
+    Flight f = a[h-1][i];
     if (f.type == arrival && f.hour == h) {
       total += f.passengers_amount;
     } else if (f.type == departure && f.hour == h) {

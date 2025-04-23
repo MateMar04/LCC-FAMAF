@@ -61,7 +61,8 @@ void array_from_file(LayoverTable array, const char *filepath) {
   char code;
   int i=0;
   while (!feof(file)) {
-    int res = fscanf(file, " _%c_ %u %u %u %u %u %u ", &code );
+    int res = fscanf(file, "%c", &code );
+    fprintf(stdout, "code: %c\n", code);
     if (res != 1) {
       fprintf(stderr, "Invalid file.\n");
       exit(EXIT_FAILURE);
@@ -70,13 +71,7 @@ void array_from_file(LayoverTable array, const char *filepath) {
     Flight flight_arrival = flight_from_file(file, code);
     Flight flight_departure = flight_from_file(file, code);
 
-    if (flight_arrival.type == arrival) {
-      array[flight_arrival.hour - 1][arrival] = flight_arrival;
-      array[flight_departure.hour - 1][departure] = flight_departure;
-    } else {
-      array[flight_departure.hour - 1][departure] = flight_departure;
-      array[flight_arrival.hour - 1][arrival] = flight_arrival;
-    }
+
     i++;
   }
   fclose(file);

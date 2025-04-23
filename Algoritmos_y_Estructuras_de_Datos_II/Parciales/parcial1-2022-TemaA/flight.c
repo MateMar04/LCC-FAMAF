@@ -12,7 +12,7 @@ Flight flight_from_file(FILE* file, char code)
     Flight flight;
     flight.code = code;
 
-    int data = fscanf(file, "%u %u %u", &flight.type, &flight.hour, &flight.passengers_amount);
+    int data = fscanf(file, "%u %u %u\n", &flight.type, &flight.hour, &flight.passengers_amount);
     if (data != AMOUNT_OF_FLIGHT_VARS)
     {
         fprintf(stderr, "Error: invalid flight data format\n");

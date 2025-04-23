@@ -61,7 +61,7 @@ void array_from_file(LayoverTable array, const char *filepath) {
   char code;
   int i=0;
   while (!feof(file)) {
-    int res = fscanf(file, "_%c_", &code );
+    int res = fscanf(file, " _%c_ ", &code );
     fprintf(stdout, "code: %c\n", code);
     if (res != 1) {
       fprintf(stderr, "Invalid file.\n");

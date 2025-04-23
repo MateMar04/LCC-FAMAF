@@ -31,21 +31,20 @@ void array_dump(LayoverTable a) {
 }
 
 unsigned int passengers_amount_in_airport (LayoverTable a, unsigned int h) {
-  assert(h < HOURS);
+  assert(h > 0 && h <= HOURS);
 
-  unsigned int total = 0;
+    
+  unsigned int idx = h - 1;
+  unsigned int waiting = 0;
 
-  for (unsigned int i = 0u; i < TYPE; i++) {
-    Flight f = a[h-1][i];
-    if (f.type == arrival && f.hour == h) {
-      total += f.passengers_amount;
-    } else if (f.type == departure && f.hour == h) {
-      total += f.passengers_amount;
-    }
+  for (unsigned int i = 0; i <= idx; ++i) {
+      waiting += a[i][arrival].passengers_amount;
   }
+    for (unsigned int j = 0; j < idx; ++j) {
+        waiting -= a[j][departure].passengers_amount;
+    }
 
-
-  return total;
+    return waiting;
 }
 
 

@@ -5,18 +5,20 @@
 
 #define MAX_LENGTH 1820
 
-char *string_clone(const char *str) {
-    char *clone = NULL;
-    size_t length = strlen(str);
-    clone = malloc(length + 1);
-    if (clone != NULL) {
-        strcpy(clone, str);
+char *string_clone(const char *str, size_t length) {
+    char *output = NULL;
+    output = malloc(length + 1);
+    if (output != NULL) {
+        for (size_t i = 0; i < length; i++) {
+            output[i] = str[i];
+        }
+        output[length] = '\0';
     }
-    return clone;
+    return output;
 }
 
 int main(void) {
-    char original[] = ""
+    char *original = ""
          "______ time ago in a galaxy far, far away...\n\n\n"
          ANSI_BRGOLD
          "         _______..___________.     ___      .______             \n"
@@ -56,7 +58,11 @@ int main(void) {
 
     char *copy = NULL;
 
-    copy = string_clone(original);
+    copy = string_clone(original, strlen(original));
+    if (copy == NULL) {
+        fprintf(stderr, "Error: no se pudo asignar memoria para la copia\n");
+        return EXIT_FAILURE;
+    }
 
     printf("Original:\n" ANSI_CYAN " %s\n", original);
 
@@ -70,6 +76,18 @@ int main(void) {
     printf("Copia   :\n" ANSI_CYAN " %s\n", copy);
 
     free(copy);
-
     return EXIT_SUCCESS;
 }
+
+/*
+En este archivo se cambió el tipo de `original` a `char *` apuntando a un
+literal de cadena. Estos literales residen en una sección de solo lectura
+del programa. Intentar modificar `original` directamente (como en:
+original[0] = 'A';) causaría un segmentation fault.
+
+Por eso, se utiliza string_clone() para crear una copia en memoria dinámica
+que sí puede modificarse con seguridad.
+
+Evitar modificar directamente literales string en C, ya que su comportamiento
+no está definido y puede provocar errores fatales en tiempo de ejecución.
+*/

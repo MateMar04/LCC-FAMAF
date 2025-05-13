@@ -6,15 +6,16 @@
 #define MAX_LENGTH 1820
 
 char *string_clone(const char *str, size_t length) {
-    char clon[MAX_LENGTH];
-    char *output=clon;
-    for (size_t i=0; i<length;i++) {
-        output[i] = str[i];
+    char *output = NULL;
+    output = malloc(length + 1);
+    if (output != NULL) {
+        for (size_t i = 0; i < length; i++) {
+            output[i] = str[i];
+        }
+        output[length] = '\0';
     }
-    output[length] = '\0';
     return output;
 }
-
 
 int main(void) {
     char original[]=""
@@ -54,20 +55,37 @@ int main(void) {
          "                an    ARMY    OF   THE   REPUBLIC\n"
          "                to    assist    the   overwhelmed\n"
          "                Jedi....\n" ANSI_WHITE;
-    char *copy=NULL;
 
-    copy = string_clone(original, sizeof(original)/sizeof(*original));
-    printf("Original:\n" ANSI_CYAN
-            " %s\n", original);
+    char *copy = NULL;
+
+    copy = string_clone(original, sizeof(original) - 1);
+    if (copy == NULL) {
+        fprintf(stderr, "Error: no se pudo asignar memoria para la copia\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("Original:\n" ANSI_CYAN " %s\n", original);
+
     copy[0] = 'A';
     copy[1] = ' ';
     copy[2] = 'l';
     copy[3] = 'o';
     copy[4] = 'n';
     copy[5] = 'g';
-    printf("Copia   :\n" ANSI_CYAN
-           " %s\n", copy);
+
+    printf("Copia   :\n" ANSI_CYAN " %s\n", copy);
+
+    free(copy); 
 
     return EXIT_SUCCESS;
 }
 
+/*
+Problema original:
+La función string_clone() devolvía un puntero a una variable local en la pila,
+lo que provocaba comportamiento indefinido al usar esa memoria luego de que
+la función finalizaba.
+
+El valor de `length` observado en gdb al entrar a string_clone() es 1811
+Sobre clone_ptr.c:
+*/

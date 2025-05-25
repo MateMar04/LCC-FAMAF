@@ -1,14 +1,14 @@
-#include <stdlib.h>  /* EXIT_SUCCESS... */
-#include <stdio.h>   /* printf()...     */
-#include "pair.h"    /* TAD Par         */
+#include <stdlib.h> /* EXIT_SUCCESS... */
+#include <stdio.h>  /* printf()...     */
+#include "pair.h"   /* TAD Par         */
 
-static
-void show_pair(pair_t p) {
+static void show_pair(pair_t p)
+{
     printf("(%d, %d)\n", p.fst, p.snd);
 }
 
-
-int main(void) { 
+int main(void)
+{
     pair_t p, q;
 
     // Nuevo par p

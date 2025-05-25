@@ -2,9 +2,11 @@
 #include <stdio.h>  /* printf()...     */
 #include "pair.h"   /* TAD Par         */
 
+// Falla porque no se ha definido el tipo pair_t
+
 static void show_pair(pair_t p)
 {
-    printf("(%d, %d)\n", p->fst, p->snd);
+    printf("(%d, %d)\n", pair_first(p), pair_second(p));
 }
 
 int main(void)
@@ -36,5 +38,5 @@ int main(void)
     return EXIT_SUCCESS;
 }
 
-// No logra el encapsulamiento porque se accede a los datos de la estructura
-//  a traves de punteros y no a traves de funciones
+// El nuevo dise;o si logra el encapulamiento ya que no se conoce la como esta construido el tipo
+// pair_t. Se puede cambiar la implementacion sin que el usuario lo note.

@@ -3,9 +3,9 @@
 #include "list.h"
 
 #define MAX_LENGTH 10
-#define N_TESTCASES_HEAD 3
-#define N_TESTCASES_INDEX 3
-#define N_TESTCASES_LENGTH 4
+#define N_TESTCASES_HEAD 5
+#define N_TESTCASES_INDEX 5
+#define N_TESTCASES_LENGTH 6
 
 // construye una lista a partir de un arreglo
 // (usa los constructores de lista empty y addl)
@@ -34,7 +34,10 @@ void test_head() {
       { {-2}, 1, -2 },          // testea: head([-2]) == -2
       { {1, -2}, 2, 1 },        // testea: head([1, -2]) == 1
       { {8, 1, -2}, 3, 8 },     // testea: head([8, 1, -2]) == 8
+      { {1,2,3,4,5,6,7,8}, 8, 1 },             // testea: head([0]) == 0 (lista con un elemento)
+      { {-1,-2,-3,-4,-5,-6,-7}, 7, -1 }  // testea: head([1,2,3,4,5,6,7]) == 1
     };
+
 
     list input;
     elem result;
@@ -75,6 +78,8 @@ void test_index() {
       { {8, 1, -2}, 3, 0, 8 },      // testea: index([8, 1, -2], 0) == 8
       { {8, 1, -2}, 3, 1, 1 },      // testea: index([8, 1, -2], 1) == 1
       { {8, 1, -2}, 3, 2, -2 },     // testea: index([8, 1, -2], 2) == -2
+      { {1,2,3,4,5,6,7,8}, 8, 4, 5 }, // testea: index([1,2,3,4,5,6,7,8], 7) == 8 (último elemento)
+      { {-1,-2,-3,-4,-5,-6,-7}, 7, 3, -4 } // testea: index([-1,-2,-3,-4,-5,-6,-7], 3) == -4
     };
 
     list input;
@@ -116,6 +121,8 @@ void test_length() {
       { {-2}, 1 },          // testea: length([-2]) == 1
       { {1, -2}, 2 },       // testea: length([1, -2]) == 2
       { {8, 1, -2}, 3 },    // testea: length([8, 1, -2]) == 3
+      { {1,2,3,4,5,6,7,8}, 8 }, // testea: length([1,2,3,4,5,6,7,8]) == 8
+      { {1,2,3,4,5,6,7}, 7 }   // testea: length([1,2,3,4,5,6,7]) == 7
     };
 
     list input;

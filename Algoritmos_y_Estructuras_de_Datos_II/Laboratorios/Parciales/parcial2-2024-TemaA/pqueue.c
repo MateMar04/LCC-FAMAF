@@ -27,29 +27,15 @@ INVARIANTE DE REPRESENTACIÓN
 static bool invrep(pqueue q)
 {
     if (q == NULL) {
-        return false;            
+        return false;    /* Una cola válida nunca es NULL */
     }
 
-    /* Verificar que la lista esté ordenada y contar nodos */
-    struct s_node *curr  = q->front;
-    float          last_prio;
-
-    if (curr == NULL) {
-        last_prio = 0.0f;        /* Cola vacía: centinela */
-    } else {
-        last_prio = curr->priority;
-    }
-
+    /* ---- Contar nodos y comprobar size ---- */
     unsigned int count = 0u;
-
-    while (curr != NULL) {
-        last_prio = curr->priority;
-
-        curr = curr->next;
+    for (struct s_node *curr = q->front; curr != NULL; curr = curr->next) {
         ++count;
     }
 
-    /* size guarda realmente la cantidad de nodos */
     assert(count == q->size);
 
     return true;

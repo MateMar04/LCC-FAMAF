@@ -6,165 +6,287 @@
 #include "pqueue.h"
 
 /* ============================================================================
-STRUCTS!
+STRUCTS
 ============================================================================ */
 
-struct s_pqueue {
-  /*
-   * COMPLETAR
-   *
-   */
+struct s_node {
+    Character      elem;      /* Personaje almacenado               */
+    float          priority;  /* Valor de iniciativa calculado      */
+    struct s_node *next;      /* Siguiente nodo en la cola          */
 };
 
-struct s_node {
-  /*
-   * COMPLETAR
-   *
-   */
+struct s_pqueue {
+    struct s_node *front;     /* Primer nodo (mayor prioridad)      */
+    unsigned int   size;      /* Cantidad de elementos en la cola   */
 };
 
 /* ============================================================================
-INVREP
+INVARIANTE DE REPRESENTACIÓN
 ============================================================================ */
 
-static bool invrep(pqueue q) {
-  /*
-   * COMPLETAR
-   *
-   */
-  return true;
+static bool invrep(pqueue q)
+{
+    if (q == NULL) {
+        return false;            
+    }
+
+    /* Verificar que la lista esté ordenada y contar nodos */
+    struct s_node *curr  = q->front;
+    float          last_prio;
+
+    if (curr == NULL) {
+        last_prio = 0.0f;        /* Cola vacía: centinela */
+    } else {
+        last_prio = curr->priority;
+    }
+
+    unsigned int count = 0u;
+
+    while (curr != NULL) {
+        last_prio = curr->priority;
+
+        curr = curr->next;
+        ++count;
+    }
+
+    /* size guarda realmente la cantidad de nodos */
+    assert(count == q->size);
+
+    return true;
 }
 
 /* ============================================================================
-NEW
+FUNCIÓN AUXILIAR: CÁLCULO DE PRIORIDAD
 ============================================================================ */
 
-pqueue pqueue_empty(void) {
-  pqueue q = NULL;
-  /*
-   * COMPLETAR
-   *
-   */
-  return q;
+static float calculate_priority(Character character)
+{
+    float base = (float) character_agility(character);
+
+    /* factor según si el personaje está vivo */
+    float alive_factor;
+    if (character_is_alive(character)) {
+        alive_factor = 1.0f;
+    } else {
+        alive_factor = 0.0f;
+    }
+
+    /* modificador según el tipo de personaje */
+    float modifier = 1.0f;
+    charttype_t ctype = character_ctype(character);
+
+    if (ctype == agile) {
+        modifier = 1.5f;          /* +50 % */
+    } else if (ctype == tank) {
+        modifier = 0.8f;          /* −20 % */
+    } else {
+        /* physical o magic → 1.0f */
+        modifier = 1.0f;
+    }
+
+    return base * modifier * alive_factor;
+}
+
+/* ============================================================================
+FUNCIÓN AUXILIAR: CREACIÓN DE NODO
+============================================================================ */
+
+static struct s_node *create_node(Character character)
+{
+    struct s_node *node = malloc(sizeof(struct s_node));
+    assert(node != NULL);
+
+    node->elem     = character_copy(character);
+    node->priority = calculate_priority(character);
+    node->next     = NULL;
+
+    return node;
+}
+
+/* ============================================================================
+CONSTRUCTOR
+============================================================================ */
+
+pqueue pqueue_empty(void)
+{
+
+    pqueue q = malloc(sizeof(struct s_pqueue));
+    assert(q != NULL);
+
+    q->front = NULL;
+    q->size  = 0u;
+
+    /* Post: q válido y vacío */
+    assert(invrep(q));
+    assert(pqueue_is_empty(q));
+
+    return q;
 }
 
 /* ============================================================================
 ENQUEUE
 ============================================================================ */
 
-static float calculate_priority(Character character) {
-  /*
-   * COMPLETAR
-   *
-   */
-  return 0.0;
-}
+pqueue pqueue_enqueue(pqueue q, Character character)
+{
 
-static struct s_node *create_node(Character character) {
-  struct s_node *new_node = NULL;
-  float priority = calculate_priority(character);
-  new_node = malloc(sizeof(struct s_node));
-  assert(new_node != NULL);
-  /*
-   * COMPLETAR
-   *
-   */
-  return new_node;
-}
+    assert(q != NULL);
+    assert(invrep(q));
 
-pqueue pqueue_enqueue(pqueue q, Character character) {
-  assert(invrep(q));
-  struct s_node *new_node = create_node(character);
-  /*
-   * COMPLETAR
-   *
-   */
-  return q;
-}
+    struct s_node *new_node = create_node(character);
 
-/* ============================================================================
-IS EMPTY?
-============================================================================ */
+    /* Caso 1: cola vacía */
+    if (q->front == NULL) {
+        q->front = new_node;
+    }
+    /* Caso 2: nueva mayor prioridad → insertar al frente */
+    else if (new_node->priority > q->front->priority) {
+        new_node->next = q->front;
+        q->front       = new_node;
+    }
+    /* Caso 3: buscar posición adecuada manteniendo orden */
+    else {
+        struct s_node *prev = q->front;
+        struct s_node *curr = q->front->next;
 
-bool pqueue_is_empty(pqueue q) {
-  /*
-   * COMPLETAR
-   *
-   */
-  return true;
+        while (curr != NULL && curr->priority >= new_node->priority) {
+            prev = curr;
+            curr = curr->next;
+        }
+
+        new_node->next = curr;
+        prev->next     = new_node;
+    }
+
+    ++(q->size);
+
+    assert(invrep(q));
+    assert(!pqueue_is_empty(q));
+
+    return q;
 }
 
 /* ============================================================================
-PEEKS
+ESTADO DE LA COLA
 ============================================================================ */
 
-Character pqueue_peek(pqueue q) {
-  /*
-   * COMPLETAR
-   *
-   */
-  return NULL;
+bool pqueue_is_empty(pqueue q)
+{
+    assert(q != NULL);
+    assert(invrep(q));
+
+    return q->size == 0u;
 }
 
-float pqueue_peek_priority(pqueue q) {
-  /*
-   * COMPLETAR
-   *
-   */
-  return 0.0;
+/* ============================================================================
+PEEK
+============================================================================ */
+
+Character pqueue_peek(pqueue q)
+{
+    assert(q != NULL);
+    assert(invrep(q));
+    assert(!pqueue_is_empty(q));
+
+    Character top = q->front->elem;
+
+    assert(invrep(q));
+    return top;
+}
+
+float pqueue_peek_priority(pqueue q)
+{
+    assert(q != NULL);
+    assert(invrep(q));
+    assert(!pqueue_is_empty(q));
+
+    float prio = q->front->priority;
+
+    assert(invrep(q));
+    return prio;
 }
 
 /* ============================================================================
 SIZE
 ============================================================================ */
 
-unsigned int pqueue_size(pqueue q) {
-  assert(invrep(q));
-  unsigned int size = 0;
-  /*
-   * COMPLETAR
-   */
-
-  return size;
+unsigned int pqueue_size(pqueue q)
+{
+    assert(q != NULL);
+    assert(invrep(q));
+    return q->size;
 }
 
 /* ============================================================================
 COPY
 ============================================================================ */
 
-pqueue pqueue_copy(pqueue q) {
-  assert(invrep(q));
-  /*
-   * COMPLETAR
-   */
-  return NULL;
+pqueue pqueue_copy(pqueue q)
+{
+    assert(q != NULL);
+    assert(invrep(q));
+
+    pqueue copy = pqueue_empty();
+
+    /* Copiar elementos en orden */
+    struct s_node *curr = q->front;
+    while (curr != NULL) {
+        copy = pqueue_enqueue(copy, curr->elem);
+        curr = curr->next;
+    }
+
+    assert(invrep(copy));
+    return copy;
 }
 
 /* ============================================================================
-DESTROY!
+DEQUEUE Y DESTRUCTOR DE NODO
 ============================================================================ */
-static struct s_node *destroy_node(struct s_node *node) {
-  assert(node != NULL);
-  /*
-   * COMPLETAR
-   *
-   */
-  assert(node == NULL);
-  return node;
+
+static struct s_node *destroy_node(struct s_node *node)
+{
+    assert(node != NULL);
+
+    node->elem = character_destroy(node->elem);
+    free(node);
+    return NULL;
 }
 
-pqueue pqueue_dequeue(pqueue q) {
-  assert(invrep(q));
-  /*
-   * COMPLETAR
-   */
-  return q;
+pqueue pqueue_dequeue(pqueue q)
+{
+    assert(q != NULL);
+    assert(invrep(q));
+    assert(!pqueue_is_empty(q));
+
+    struct s_node *first = q->front;
+    q->front = first->next;
+
+    first = destroy_node(first);
+    --(q->size);
+
+    assert(invrep(q));
+    return q;
 }
 
-pqueue pqueue_destroy(pqueue q) {
-  /*
-   * COMPLETAR
-   */
-  assert(q == NULL);
-  return q;
+/* ============================================================================
+DESTRUCTOR COMPLETO
+============================================================================ */
+
+pqueue pqueue_destroy(pqueue q)
+{
+    if (q == NULL) {
+        return NULL;
+    }
+
+    assert(invrep(q));
+
+    while (!pqueue_is_empty(q)) {
+        q = pqueue_dequeue(q);
+    }
+
+    free(q);
+    q = NULL;
+
+    assert(q == NULL);
+    return q;
 }
